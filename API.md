@@ -68,3 +68,8 @@ Supported IDs: `bengaluru`, `mysuru`, `mangaluru`, `hubballi-dharwad`, `belagavi
 Example reads: `/api/state?city=mysuru` and `/api/export?city=mysuru&type=observations`. New roads have city-prefixed IDs such as `mysuru-central` and `mangaluru-north`. Bengaluru's original IDs such as `mg-road` are preserved.
 
 Pass the selected city on `tick`, incident creation/update, alert updates, signal simulation, uploads, and exports. A road outside the selected city is rejected. CSV files must contain observations for one selected city only; validation rejects mixed-city files before insertion. Exports include `city_id` and `city_name`, and their download filenames include the city ID. `/api/state` also returns the selected `city` and the full `cities` catalogue. Model metrics are for the selected city's synthetic test subset.
+
+
+## Public browser access
+
+With PUBLIC_ACCESS=true, missing platform identity resolves to an anonymous viewer. PUBLIC_ORIGIN enables credential-free CORS for the GitHub Pages origin. OPTIONS supports Content-Type preflight. Anonymous state responses omit users, uploads and audit records. Management mutations remain forbidden; POST /api/tick allows a bounded deterministic simulator refresh. Public Pages requests are always anonymous, even if identity headers are present. Local-demo authentication is unchanged.

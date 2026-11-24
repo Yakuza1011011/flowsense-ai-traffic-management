@@ -34,7 +34,7 @@ The Sites hosting environment runs Cloudflare Workers rather than Python process
 
 Model trees are exported from scikit-learn to JSON and evaluated by the Worker. The deployed application is a full server-backed application; operational records are not stored in localStorage. Client assets are embedded in the Worker bundle to keep the deployment self-contained.
 
-`.openai/hosting.json` preserves the private Site identity and declares the `DB` binding. The Sites workflow applies tracked Drizzle migrations before deploying. Hosted login uses platform-provided ChatGPT identity headers; the first visitor becomes administrator atomically, subsequent visitors default to viewer. Existing administrators can change other users' roles. Keep the Site private unless a deliberate sharing change is wanted. The application trusts identity headers only behind the Sites authentication boundary; do not expose its API as an unprotected public origin.
+`.openai/hosting.json` preserves the private Site identity and declares the `DB` binding. The Sites workflow applies tracked Drizzle migrations before deploying. Hosted login uses platform-provided ChatGPT identity headers; the first visitor becomes administrator atomically, subsequent visitors default to viewer. Existing administrators can change other users' roles. Public access is enabled explicitly through PUBLIC_ACCESS and PUBLIC_ORIGIN. The application trusts identity headers only behind the Sites authentication boundary; do not expose its API as an unprotected public origin.
 
 ## Model training and verification
 
@@ -117,3 +117,15 @@ The ten added cities use six clearly labelled schematic demonstration corridors 
 The additive migration adds city metadata to uploads and audit records; existing nullable records are treated as Bengaluru records. Original Bengaluru road IDs are unchanged. Existing observations, incidents, plans, and monitoring exclusions are preserved. Seeding only fills road segments that have no observations and never overwrites imported data.
 
 Naming references: [Karnataka Tourism destinations](https://karnatakatourism.org/en/destinations/) and [district administration, Kalaburagi](https://kalaburagi.nic.in/en/about-district/). Base maps and attribution remain OpenStreetMap.
+
+## Public GitHub Pages deployment
+
+Public URL: https://yakuza1011011.github.io/flowsense-ai-traffic-management/
+
+GitHub Pages hosts the React frontend. The existing Sites Worker and D1 database serve its API at https://flowsense-ai-traffic-1124.hazygnome514.chatgpt.site. GitHub Pages itself cannot run the API or database. The Pages build embeds only the public API origin, not credentials. Every push to main runs Node tests, builds the frontend, and deploys it with GitHub Actions.
+
+Run `npm run build:pages` to generate `dist/pages`. The ordinary `npm run build` still builds the same-origin Sites application and Worker. API changes must also be published through Sites; a Pages deployment updates only the frontend.
+
+Hosted runtime values: `PUBLIC_ACCESS=true`, `PUBLIC_ORIGIN=https://yakuza1011011.github.io`. The Site audience must also be public. Anonymous requests receive viewer access without a ChatGPT account. The configured Pages origin receives CORS responses without cookies or credential forwarding. Traffic observations, predictions, demonstration incidents, plans, and exports are public. Account lists, upload metadata, and audit records are withheld from anonymous visitors. Existing operator/admin access on the backend origin remains protected; anonymous visitors cannot import data, change incidents, save plans, alter settings, seed all data, or change roles.
+
+Public visitors can advance deterministic simulation intervals and run temporary signal comparisons in the browser. A refresh supplies up to four recent 15-minute demo intervals when needed; repeated refreshes within an interval are idempotent. No real traffic-control system is connected.

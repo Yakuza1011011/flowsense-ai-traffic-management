@@ -3,8 +3,8 @@ import {roads,roadsForCity,defaults,upgradeSettings,synthetic,simulatePlan,type 
 import {cities,getCity,searchCities} from '../shared/cities';
 import {forecast,modelInfo} from './forecast';
 export type DB={prepare:(sql:string)=>{bind:(...values:any[])=>any;first:()=>Promise<any>;all:()=>Promise<{results:any[]}>;run:()=>Promise<any>};batch:(statements:any[])=>Promise<any[]>};
-export type Env={DB:DB;LOCAL_DEMO?:string;DEMO_PASSWORD?:string;SESSION_SECRET?:string};
-type User={id:string;email:string;role:string};
+export type Env={DB:DB;LOCAL_DEMO?:string;DEMO_PASSWORD?:string;SESSION_SECRET?:string;PUBLIC_ACCESS?:string;PUBLIC_ORIGIN?:string};
+type User={id:string;email:string;role:string;anonymous?:boolean};
 const json=(data:any,status=200,headers:Record<string,string>={})=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json','Cache-Control':'no-store',...headers}});
 class ApiError extends Error{constructor(public status:number,message:string){super(message)}}
 function fail(s:number,m:string):never{throw new ApiError(s,m)}
@@ -21,7 +21,9 @@ async function identity(req:Request,env:Env):Promise<User>{
   if(!['admin','operator','viewer'].includes(role)||Number(expiry)<Date.now()||sig!==await sign(`${role}.${expiry}`,env.SESSION_SECRET!))fail(401,'Session expired. Please sign in again.');
   return {id:`local-${role}`,email:`${role}@flowsense.local`,role};
  }
- const id=req.headers.get('oai-authenticated-user-id');if(!id)fail(401,'Sign in with ChatGPT to access FlowSense.');
+ const id=req.headers.get('oai-authenticated-user-id');
+ if(env.PUBLIC_ACCESS==='true'&&(!id||req.headers.get('origin')===env.PUBLIC_ORIGIN))return {id:'public-visitor',email:'Public visitor',role:'viewer',anonymous:true};
+ if(!id)fail(401,'Sign in with ChatGPT to access FlowSense.');
  const email=req.headers.get('oai-authenticated-user-email')||'Site member';
  // Atomic owner bootstrap: only the first platform-authenticated visitor is administrator.
  await env.DB.prepare("INSERT OR IGNORE INTO users (id,email,role,created_at) SELECT ?,?,CASE WHEN EXISTS(SELECT 1 FROM users) THEN 'viewer' ELSE 'admin' END,?").bind(id,email,iso()).run();
@@ -63,17 +65,25 @@ async function getPredictions(env:Env,settings:Settings,cityId:string){
  const obs=(await env.DB.prepare(`SELECT * FROM observations WHERE timestamp >= ? AND road_segment_id IN (${selected.map(()=>'?').join(',')}) ORDER BY timestamp`).bind(new Date(Date.now()-86400000).toISOString(),...selected.map(r=>r.id)).all()).results;
  return selected.flatMap(r=>{const hist=obs.filter((o:Observation)=>o.road_segment_id===r.id);return hist.length?[15,30,60].map(h=>forecast(hist,r,h,settings)):[]});
 }
-export async function api(req:Request,env:Env):Promise<Response>{try{
+export async function api(req:Request,env:Env):Promise<Response>{
+ const origin=req.headers.get('origin'),cross=!!origin&&origin!==new URL(req.url).origin;
+ const allowed=env.PUBLIC_ACCESS==='true'&&origin===env.PUBLIC_ORIGIN;
+ if(cross&&!allowed)return json({error:'This origin is not allowed.'},403);
+ const response=req.method==='OPTIONS'?(allowed?new Response(null,{status:204}):json({error:'Preflight is not allowed.'},403)):await handleApi(req,env);
+ if(allowed){response.headers.set('Access-Control-Allow-Origin',origin!);response.headers.set('Vary','Origin');response.headers.set('Access-Control-Allow-Methods','GET, POST, OPTIONS');response.headers.set('Access-Control-Allow-Headers','Content-Type');response.headers.set('Access-Control-Expose-Headers','Content-Disposition');response.headers.set('Access-Control-Max-Age','600')}
+ return response;
+}
+async function handleApi(req:Request,env:Env):Promise<Response>{try{
  const url=new URL(req.url),path=url.pathname,method=req.method;
  if(path==='/api/health')return json({ok:true});
- if(!['GET','HEAD'].includes(method)){const origin=req.headers.get('origin');if(origin&&origin!==url.origin)fail(403,'Cross-origin writes are not allowed.');if(!req.headers.get('content-type')?.includes('application/json'))fail(415,'Use application/json.');}
+ if(!['GET','HEAD'].includes(method)){if(!req.headers.get('content-type')?.includes('application/json'))fail(415,'Use application/json.');}
  if(path==='/api/auth'&&method==='GET')return json({local:env.LOCAL_DEMO==='true',user:await identity(req,env)});
  if(path==='/api/login'&&method==='POST'){
   if(env.LOCAL_DEMO!=='true')fail(404,'Local demo login is disabled.');const b=await body(req);
   if(!env.DEMO_PASSWORD||b.password!==env.DEMO_PASSWORD||!['admin','operator','viewer'].includes(b.role))fail(401,'Incorrect demo credentials.');
   const value=`${b.role}.${Date.now()+8*3600000}`;return json({ok:true},200,{'Set-Cookie':`fs_session=${value}.${await sign(value,env.SESSION_SECRET!)}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800`});
  }
- if(path==='/api/auth-mode')return json({local:env.LOCAL_DEMO==='true'});
+ if(path==='/api/auth-mode')return json({local:env.LOCAL_DEMO==='true',public:env.PUBLIC_ACCESS==='true'});
  const user=await identity(req,env);
  const cityId=url.searchParams.get('city')||'bengaluru',city=getCity(cityId);if(!city)fail(400,'Unknown city. Choose a supported Karnataka city.');
  const cityRoads=roadsForCity(cityId),cityIds=cityRoads.map(r=>r.id),citySlots=cityIds.map(()=>'?').join(',');
@@ -87,14 +97,20 @@ export async function api(req:Request,env:Env):Promise<Response>{try{
    env.DB.prepare(`SELECT * FROM incidents WHERE road_segment_id IN (${citySlots}) ORDER BY created_at DESC`).bind(...cityIds).all(),
    env.DB.prepare(`SELECT * FROM alerts WHERE road_segment_id IN (${citySlots}) ORDER BY created_at DESC LIMIT 100`).bind(...cityIds).all(),
    env.DB.prepare(`SELECT * FROM signal_plans WHERE road_segment_id IN (${citySlots})`).bind(...cityIds).all(),
-   env.DB.prepare("SELECT * FROM uploads WHERE city_id=? OR (city_id IS NULL AND ?='bengaluru') ORDER BY created_at DESC LIMIT 20").bind(cityId,cityId).all(),
-   env.DB.prepare("SELECT * FROM audit WHERE city_id=? OR (city_id IS NULL AND ?='bengaluru') ORDER BY created_at DESC LIMIT 30").bind(cityId,cityId).all(),
+   user.anonymous?Promise.resolve({results:[]}):env.DB.prepare("SELECT * FROM uploads WHERE city_id=? OR (city_id IS NULL AND ?='bengaluru') ORDER BY created_at DESC LIMIT 20").bind(cityId,cityId).all(),
+   user.anonymous?Promise.resolve({results:[]}):env.DB.prepare("SELECT * FROM audit WHERE city_id=? OR (city_id IS NULL AND ?='bengaluru') ORDER BY created_at DESC LIMIT 30").bind(cityId,cityId).all(),
    user.role==='admin'?env.DB.prepare('SELECT id,email,role FROM users').all():Promise.resolve({results:[]})]);
   return json({user,city,cities,settings,roads:cityRoads,observations:obs.results,incidents:incidents.results,alerts:alerts.results,plans:plans.results,uploads:uploads.results,audit:audits.results,users:users.results,predictions:await getPredictions(env,settings,cityId),model:{version:modelInfo.version,metrics:modelInfo.city_metrics?.[cityId]||modelInfo.metrics,features:modelInfo.features,split:modelInfo.split},server_time:iso()});
  }
  if(path==='/api/tick'&&method==='POST'){
-  authorize(user,['admin','operator']);const settings=await getSettings(env),t=Math.floor(Date.now()/900000)*900000;
-  await chunks(env,cityRoads.filter(r=>settings.monitored.includes(r.id)).map(r=>insert(env,synthetic(r,t))));
+  if(!user.anonymous)authorize(user,['admin','operator']);const settings=await getSettings(env),t=Math.floor(Date.now()/900000)*900000;
+  const monitored=cityRoads.filter(r=>settings.monitored.includes(r.id));
+  if(user.anonymous){
+   const count=await env.DB.prepare(`SELECT COUNT(*) AS count FROM observations WHERE timestamp=? AND road_segment_id IN (${citySlots})`).bind(new Date(t).toISOString(),...cityIds).first();
+   if(count.count>=monitored.length)return json({ok:true,observations:0,unchanged:true});
+  }
+  // Public visitors can advance only deterministic demo intervals, never supply traffic values.
+  await chunks(env,monitored.flatMap(r=>Array.from({length:user.anonymous?4:1},(_,i)=>insert(env,synthetic(r,t-i*900000)))));
   const predictions=await getPredictions(env,settings,cityId);
   await chunks(env,predictions.map(p=>env.DB.prepare('INSERT OR REPLACE INTO predictions VALUES(?,?,?,?,?)').bind(p.road_segment_id,p.issued_at,p.horizon,p.speed,p.model_version)));
   if(settings.notifications)for(const p of predictions.filter(p=>p.horizon===30&&p.status==='Heavy')){
