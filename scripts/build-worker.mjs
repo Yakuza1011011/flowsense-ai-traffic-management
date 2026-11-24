@@ -1,0 +1,9 @@
+import {build} from 'esbuild';
+import {readFileSync,writeFileSync,readdirSync,mkdirSync,copyFileSync} from 'node:fs';
+import {extname} from 'node:path';
+const assets={};
+function walk(dir,prefix=''){for(const ent of readdirSync(dir,{withFileTypes:true})){const path=`${dir}/${ent.name}`,key=`${prefix}/${ent.name}`;if(ent.isDirectory())walk(path,key);else assets[key]={body:readFileSync(path).toString('base64'),type:({'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.png':'image/png','.svg':'image/svg+xml','.woff2':'font/woff2'}[extname(path)]||'application/octet-stream')}}}walk('dist/client');
+mkdirSync('dist/.openai',{recursive:true});mkdirSync('dist/server',{recursive:true});
+const code=`import {api} from './server/api.ts';const assets=${JSON.stringify(assets)};export default {async fetch(req,env){const url=new URL(req.url);if(url.pathname.startsWith('/api/'))return api(req,env);if(req.method!=='GET'&&req.method!=='HEAD')return new Response('Method not allowed',{status:405});const asset=assets[url.pathname]||(!url.pathname.includes('.')?assets['/index.html']:null);if(!asset)return new Response('Not found',{status:404});return new Response(req.method==='HEAD'?null:Uint8Array.from(atob(asset.body),c=>c.charCodeAt(0)),{headers:{'Content-Type':asset.type,'X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Cache-Control':url.pathname.startsWith('/assets/')?'public, max-age=31536000, immutable':'no-cache'}})}};`;
+await build({stdin:{contents:code,resolveDir:process.cwd(),sourcefile:'worker.ts',loader:'ts'},bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true,outfile:'dist/server/index.js'});
+copyFileSync('.openai/hosting.json','dist/.openai/hosting.json');console.log('Worker bundle and embedded frontend assets built.');

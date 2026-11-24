@@ -1,0 +1,10 @@
+import {sqliteTable,text,integer,real,primaryKey} from 'drizzle-orm/sqlite-core';
+export const users=sqliteTable('users',{id:text().primaryKey(),email:text().notNull(),role:text().notNull(),created_at:text().notNull()});
+export const settings=sqliteTable('settings',{id:integer().primaryKey(),value:text().notNull()});
+export const observations=sqliteTable('observations',{timestamp:text().notNull(),road_segment_id:text().notNull(),vehicle_count:integer().notNull(),average_speed_kmh:real().notNull(),occupancy_percent:real().notNull(),interval_minutes:integer().notNull(),source:text().notNull()},t=>[primaryKey({columns:[t.timestamp,t.road_segment_id]})]);
+export const incidents=sqliteTable('incidents',{id:text().primaryKey(),road_segment_id:text().notNull(),type:text().notNull(),severity:text().notNull(),description:text().notNull(),status:text().notNull(),created_at:text().notNull(),updated_at:text().notNull()});
+export const alerts=sqliteTable('alerts',{id:text().primaryKey(),road_segment_id:text().notNull(),message:text().notNull(),status:text().notNull(),created_at:text().notNull(),updated_at:text().notNull()});
+export const signalPlans=sqliteTable('signal_plans',{road_segment_id:text().primaryKey(),value:text().notNull(),updated_at:text().notNull()});
+export const predictions=sqliteTable('predictions',{road_segment_id:text().notNull(),issued_at:text().notNull(),horizon:integer().notNull(),speed:real().notNull(),model_version:text().notNull()},t=>[primaryKey({columns:[t.road_segment_id,t.issued_at,t.horizon]})]);
+export const audit=sqliteTable('audit',{id:text().primaryKey(),user_id:text().notNull(),action:text().notNull(),details:text().notNull(),created_at:text().notNull(),city_id:text()});
+export const uploads=sqliteTable('uploads',{id:text().primaryKey(),filename:text().notNull(),row_count:integer().notNull(),duplicate_count:integer().notNull(),created_at:text().notNull(),city_id:text()});

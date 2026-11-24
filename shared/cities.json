@@ -1,0 +1,13 @@
+[
+  {"id":"bengaluru","name":"Bengaluru","aliases":["Bangalore","ಬೆಂಗಳೂರು"],"region":"South Karnataka","center":[12.975,77.61],"zoom":12,"trafficScale":1,"rushOffset":0},
+  {"id":"mysuru","name":"Mysuru","aliases":["Mysore","ಮೈಸೂರು"],"region":"South Karnataka","center":[12.305,76.655],"zoom":13,"trafficScale":0.76,"rushOffset":0.25},
+  {"id":"mangaluru","name":"Mangaluru","aliases":["Mangalore","ಮಂಗಳೂರು"],"region":"Coastal Karnataka","center":[12.88,74.85],"zoom":13,"trafficScale":0.82,"rushOffset":-0.25},
+  {"id":"hubballi-dharwad","name":"Hubballi–Dharwad","aliases":["Hubli","Hubballi","Dharwad","Hubli Dharwad","ಹುಬ್ಬಳ್ಳಿ","ಧಾರವಾಡ"],"region":"North Karnataka","center":[15.411,75.065],"anchors":[[15.365,75.124],[15.459,75.008]],"zoom":11,"trafficScale":0.88,"rushOffset":0.5},
+  {"id":"belagavi","name":"Belagavi","aliases":["Belgaum","ಬೆಳಗಾವಿ"],"region":"North Karnataka","center":[15.85,74.51],"zoom":13,"trafficScale":0.72,"rushOffset":0.25},
+  {"id":"kalaburagi","name":"Kalaburagi","aliases":["Gulbarga","Kalburgi","Kalaburgi","ಕಲಬುರಗಿ","ಗುಲ್ಬರ್ಗಾ"],"region":"North Karnataka","center":[17.33,76.835],"zoom":13,"trafficScale":0.68,"rushOffset":0.75},
+  {"id":"davanagere","name":"Davanagere","aliases":["Davangere","ದಾವಣಗೆರೆ"],"region":"Central Karnataka","center":[14.465,75.92],"zoom":13,"trafficScale":0.70,"rushOffset":0.5},
+  {"id":"shivamogga","name":"Shivamogga","aliases":["Shimoga","ಶಿವಮೊಗ್ಗ"],"region":"Central Karnataka","center":[13.93,75.57],"zoom":13,"trafficScale":0.66,"rushOffset":0.25},
+  {"id":"tumakuru","name":"Tumakuru","aliases":["Tumkur","ತುಮಕೂರು"],"region":"South Karnataka","center":[13.34,77.105],"zoom":13,"trafficScale":0.79,"rushOffset":-0.25},
+  {"id":"ballari","name":"Ballari","aliases":["Bellary","ಬಳ್ಳಾರಿ"],"region":"North Karnataka","center":[15.14,76.925],"zoom":13,"trafficScale":0.73,"rushOffset":0.75},
+  {"id":"vijayapura","name":"Vijayapura","aliases":["Bijapur","Bijapura","Vijapur","ವಿಜಯಪುರ"],"region":"North Karnataka","center":[16.83,75.71],"zoom":13,"trafficScale":0.64,"rushOffset":0.5}
+]

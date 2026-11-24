@@ -1,0 +1,506 @@
+[
+  {
+    "id": "mg-road",
+    "cityId": "bengaluru",
+    "limit": 50,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "cubbon-road",
+    "cityId": "bengaluru",
+    "limit": 50,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "residency-road",
+    "cityId": "bengaluru",
+    "limit": 40,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "richmond-road",
+    "cityId": "bengaluru",
+    "limit": 40,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "old-airport",
+    "cityId": "bengaluru",
+    "limit": 50,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "indiranagar",
+    "cityId": "bengaluru",
+    "limit": 40,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "koramangala",
+    "cityId": "bengaluru",
+    "limit": 40,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "hosur-road",
+    "cityId": "bengaluru",
+    "limit": 60,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "bellary-road",
+    "cityId": "bengaluru",
+    "limit": 60,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "sankey-road",
+    "cityId": "bengaluru",
+    "limit": 50,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "rajajinagar",
+    "cityId": "bengaluru",
+    "limit": 50,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "racecourse",
+    "cityId": "bengaluru",
+    "limit": 40,
+    "trafficScale": 1,
+    "rushOffset": 0
+  },
+  {
+    "id": "mysuru-central",
+    "cityId": "mysuru",
+    "limit": 40,
+    "trafficScale": 0.76,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "mysuru-north",
+    "cityId": "mysuru",
+    "limit": 50,
+    "trafficScale": 0.76,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "mysuru-east",
+    "cityId": "mysuru",
+    "limit": 50,
+    "trafficScale": 0.76,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "mysuru-south",
+    "cityId": "mysuru",
+    "limit": 40,
+    "trafficScale": 0.76,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "mysuru-west",
+    "cityId": "mysuru",
+    "limit": 50,
+    "trafficScale": 0.76,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "mysuru-inner-link",
+    "cityId": "mysuru",
+    "limit": 40,
+    "trafficScale": 0.76,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "mangaluru-central",
+    "cityId": "mangaluru",
+    "limit": 40,
+    "trafficScale": 0.82,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "mangaluru-north",
+    "cityId": "mangaluru",
+    "limit": 50,
+    "trafficScale": 0.82,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "mangaluru-east",
+    "cityId": "mangaluru",
+    "limit": 50,
+    "trafficScale": 0.82,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "mangaluru-south",
+    "cityId": "mangaluru",
+    "limit": 40,
+    "trafficScale": 0.82,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "mangaluru-west",
+    "cityId": "mangaluru",
+    "limit": 50,
+    "trafficScale": 0.82,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "mangaluru-inner-link",
+    "cityId": "mangaluru",
+    "limit": 40,
+    "trafficScale": 0.82,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "hubballi-dharwad-central",
+    "cityId": "hubballi-dharwad",
+    "limit": 40,
+    "trafficScale": 0.88,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "hubballi-dharwad-north",
+    "cityId": "hubballi-dharwad",
+    "limit": 50,
+    "trafficScale": 0.88,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "hubballi-dharwad-east",
+    "cityId": "hubballi-dharwad",
+    "limit": 50,
+    "trafficScale": 0.88,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "hubballi-dharwad-south",
+    "cityId": "hubballi-dharwad",
+    "limit": 40,
+    "trafficScale": 0.88,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "hubballi-dharwad-west",
+    "cityId": "hubballi-dharwad",
+    "limit": 50,
+    "trafficScale": 0.88,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "hubballi-dharwad-inner-link",
+    "cityId": "hubballi-dharwad",
+    "limit": 40,
+    "trafficScale": 0.88,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "belagavi-central",
+    "cityId": "belagavi",
+    "limit": 40,
+    "trafficScale": 0.72,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "belagavi-north",
+    "cityId": "belagavi",
+    "limit": 50,
+    "trafficScale": 0.72,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "belagavi-east",
+    "cityId": "belagavi",
+    "limit": 50,
+    "trafficScale": 0.72,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "belagavi-south",
+    "cityId": "belagavi",
+    "limit": 40,
+    "trafficScale": 0.72,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "belagavi-west",
+    "cityId": "belagavi",
+    "limit": 50,
+    "trafficScale": 0.72,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "belagavi-inner-link",
+    "cityId": "belagavi",
+    "limit": 40,
+    "trafficScale": 0.72,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "kalaburagi-central",
+    "cityId": "kalaburagi",
+    "limit": 40,
+    "trafficScale": 0.68,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "kalaburagi-north",
+    "cityId": "kalaburagi",
+    "limit": 50,
+    "trafficScale": 0.68,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "kalaburagi-east",
+    "cityId": "kalaburagi",
+    "limit": 50,
+    "trafficScale": 0.68,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "kalaburagi-south",
+    "cityId": "kalaburagi",
+    "limit": 40,
+    "trafficScale": 0.68,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "kalaburagi-west",
+    "cityId": "kalaburagi",
+    "limit": 50,
+    "trafficScale": 0.68,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "kalaburagi-inner-link",
+    "cityId": "kalaburagi",
+    "limit": 40,
+    "trafficScale": 0.68,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "davanagere-central",
+    "cityId": "davanagere",
+    "limit": 40,
+    "trafficScale": 0.7,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "davanagere-north",
+    "cityId": "davanagere",
+    "limit": 50,
+    "trafficScale": 0.7,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "davanagere-east",
+    "cityId": "davanagere",
+    "limit": 50,
+    "trafficScale": 0.7,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "davanagere-south",
+    "cityId": "davanagere",
+    "limit": 40,
+    "trafficScale": 0.7,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "davanagere-west",
+    "cityId": "davanagere",
+    "limit": 50,
+    "trafficScale": 0.7,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "davanagere-inner-link",
+    "cityId": "davanagere",
+    "limit": 40,
+    "trafficScale": 0.7,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "shivamogga-central",
+    "cityId": "shivamogga",
+    "limit": 40,
+    "trafficScale": 0.66,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "shivamogga-north",
+    "cityId": "shivamogga",
+    "limit": 50,
+    "trafficScale": 0.66,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "shivamogga-east",
+    "cityId": "shivamogga",
+    "limit": 50,
+    "trafficScale": 0.66,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "shivamogga-south",
+    "cityId": "shivamogga",
+    "limit": 40,
+    "trafficScale": 0.66,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "shivamogga-west",
+    "cityId": "shivamogga",
+    "limit": 50,
+    "trafficScale": 0.66,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "shivamogga-inner-link",
+    "cityId": "shivamogga",
+    "limit": 40,
+    "trafficScale": 0.66,
+    "rushOffset": 0.25
+  },
+  {
+    "id": "tumakuru-central",
+    "cityId": "tumakuru",
+    "limit": 40,
+    "trafficScale": 0.79,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "tumakuru-north",
+    "cityId": "tumakuru",
+    "limit": 50,
+    "trafficScale": 0.79,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "tumakuru-east",
+    "cityId": "tumakuru",
+    "limit": 50,
+    "trafficScale": 0.79,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "tumakuru-south",
+    "cityId": "tumakuru",
+    "limit": 40,
+    "trafficScale": 0.79,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "tumakuru-west",
+    "cityId": "tumakuru",
+    "limit": 50,
+    "trafficScale": 0.79,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "tumakuru-inner-link",
+    "cityId": "tumakuru",
+    "limit": 40,
+    "trafficScale": 0.79,
+    "rushOffset": -0.25
+  },
+  {
+    "id": "ballari-central",
+    "cityId": "ballari",
+    "limit": 40,
+    "trafficScale": 0.73,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "ballari-north",
+    "cityId": "ballari",
+    "limit": 50,
+    "trafficScale": 0.73,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "ballari-east",
+    "cityId": "ballari",
+    "limit": 50,
+    "trafficScale": 0.73,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "ballari-south",
+    "cityId": "ballari",
+    "limit": 40,
+    "trafficScale": 0.73,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "ballari-west",
+    "cityId": "ballari",
+    "limit": 50,
+    "trafficScale": 0.73,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "ballari-inner-link",
+    "cityId": "ballari",
+    "limit": 40,
+    "trafficScale": 0.73,
+    "rushOffset": 0.75
+  },
+  {
+    "id": "vijayapura-central",
+    "cityId": "vijayapura",
+    "limit": 40,
+    "trafficScale": 0.64,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "vijayapura-north",
+    "cityId": "vijayapura",
+    "limit": 50,
+    "trafficScale": 0.64,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "vijayapura-east",
+    "cityId": "vijayapura",
+    "limit": 50,
+    "trafficScale": 0.64,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "vijayapura-south",
+    "cityId": "vijayapura",
+    "limit": 40,
+    "trafficScale": 0.64,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "vijayapura-west",
+    "cityId": "vijayapura",
+    "limit": 50,
+    "trafficScale": 0.64,
+    "rushOffset": 0.5
+  },
+  {
+    "id": "vijayapura-inner-link",
+    "cityId": "vijayapura",
+    "limit": 40,
+    "trafficScale": 0.64,
+    "rushOffset": 0.5
+  }
+]
